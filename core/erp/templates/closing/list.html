@@ -1,0 +1,49 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'closing/js/list.js' %}"></script>
+{% endblock %}
+<form method="post"> 
+{% block columns %}
+
+
+    <input type="hidden" name="action" value="{{ action }}">
+
+
+
+<tr>
+    <th colspan="6"></th>
+
+
+    <th colspan="3" class="text-center">Divisas recibidas</th>
+
+    <th colspan="2" ></th>
+
+ 
+</tr>
+    <tr class="">
+        <th scope="col">Id</th>
+
+        <th scope="col">Fecha de cierre</th>
+        <th scope="col">Fecha de inicio</th>
+        <th scope="col">Fecha de fin</th>
+        <th scope="col">Nro. Facturas</th>
+        <th scope="col">Total en facturas ($)</th>
+        <th scope="col">Bolivares</th>
+        <th scope="col">Pesos</th>
+        <th scope="col">Dolares</th>
+        <th scope="col">Observación</th>
+
+        <th scope="col">Opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+{% block javascript %}
+
+
+{% endblock %}
+</form>

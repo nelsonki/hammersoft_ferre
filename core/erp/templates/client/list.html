@@ -1,0 +1,52 @@
+{% extends 'list.html' %}
+{% block icons %}
+        <i class="fas fa-truck-loading"></i>
+{% endblock %}
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 5%;">ID 
+        
+    </th>
+        <th scope="col" style="width: 20%;">Imagen</th>
+
+    <th scope="col" style="width: 30%;">Nombre</th>
+    <th scope="col" style="width: 30%;">Compañia</th>
+    <th scope="col" style="width: 30%;">Tipo</th>
+    <th scope="col" style="width: 15%;">Opciones</th>
+
+</tr>
+{% endblock %}
+{% block rows %}
+{% for client in object_list %}
+<tr >
+    <td>{{client.id}}</td>
+     <td>
+        <img src="{{client.get_image}}" class="img-fluid d-block mx-auto" style="width:20px; height:20px">
+        </td>
+    <td>{{client.name}}</td>
+    <td>{{client.company}}
+ 
+    </td>
+    <td> 
+        {% if client.kind == '1' %}
+    {{ tipo_persona.1 }}
+{% else %}
+    {{ tipo_persona.2 }}
+{% endif %} 
+    </td>
+
+
+    <td>
+        
+        <a href="{% url 'client_edit' client.id %}" class="btn btn-primary" title="Editar Registro"><i
+                class="fas fa-solid fa-edit"></i></a>
+
+        <a href="{% url 'client_delete' client.id %}" class="btn btn-danger" title="Eliminar Registro"><i
+                class="fas fa-solid fa-trash"></i></a>
+    </td>
+</tr>
+<script>
+    console.log( )
+  </script>
+{% endfor %}
+{% endblock %}

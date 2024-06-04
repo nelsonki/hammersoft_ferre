@@ -1,0 +1,247 @@
+{% load static %}
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+  <a href="#" class="brand-link">
+    <img src="{% static 'img/barras.jpeg' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      style="opacity: .8">
+    <span class="brand-text font-weight-light">Bodegon</span>
+  </a>
+  <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="{{request.user.get_image}}" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a href="#" class="d-block">{{request.user.username}}</a>
+      </div>
+    </div>
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-solid fa-building"></i> 
+            <p>
+              Maestros
+              <i class="fas fa-angle-left right"></i>
+              <span class="badge badge-info right">
+                {% with sum=alert_stock_mim|add:alert_cost_pvp %}
+                {{ sum }}
+            {% endwith %}
+          </span>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+            <li class="nav-item">
+              <a href="{% url 'storeprod_list' %}" class="nav-link">
+                <i class="fas  fa-building"></i>  
+                <p>Almacenes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'category_list' %}" class="nav-link">
+                <i class="fas fa-truck-loading"></i>
+                <p>Categorías</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'product_list' %}" class="nav-link">
+                <i class="fas fa-boxes"></i>
+                <p>Productos</p>
+              </a>
+            </li>
+          
+            <li class="nav-item">
+              <a href="{% url 'client_list' %}" class="nav-link">
+                <i class="fas fa-users"></i>
+                <p>Clientes|Proveedores</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'user:user_list' %}" class="nav-link">
+                <i class="fas fa-user-friends"></i>
+                <p>Usuarios</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-shopping-cart"></i><i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+            <p>
+              Transaciones
+              <i class="fas fa-angle-left right"></i>
+              {% if input_time_alert %}
+              <span class="badge badge-info right">
+               {{input_time_alert}}
+          </span> 
+          {% endif %}
+
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+
+            <li class="nav-item">
+              <a href="{% url 'output_list' %}" class="nav-link">
+                <i class=""></i><!--fas fa-shopping-cart-->
+                <p>Salidas de productos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'input_list' %}" class="nav-link">
+                <i class=""></i>
+                <p>Entradas de productos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'movement_list' %}" class="nav-link">
+                <i class=""></i>
+                <p>Movimientos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'order_list' %}" class="nav-link">
+                <i class=""></i>
+                <p>Ordenes de salida</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'prodcombo_list' %}" class="nav-link">
+                 <p>Combos | Productos</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-arrow-circle-right"></i>
+            <p>
+              Mantenimientos
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+
+            <li class="nav-item">
+              <a href="{% url 'inventaryprodfisico_report' %}" class="nav-link">
+                <i class=""></i>
+                <p>Inventario</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'closing_list' %}" class="nav-link">
+                <i class=""></i>
+                <p>Cierre de salidas</p>
+              </a>
+            </li>
+           <li class="nav-item">
+              <a href="{% url 'adjustment_list' %}" class="nav-link">
+                <i class=""></i>
+                <p>Ajustes de Inventario</p>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            <p>
+              Reportes
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+            <li class="nav-item">
+              <a href="{% url 'input_report' %}" class="nav-link">
+                <i class=""></i>
+                <p>Entradas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'output_report' %}" class="nav-link">
+                <i class=""></i>
+                <p>Salidas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'inventaryprod_report' %}" class="nav-link">
+                <i class=""></i>
+                <p>Salidas por productos</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'inventary_report' %}" class="nav-link">
+                <i class=""></i>
+                <p>Inventario|Operaciones</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'inventaryprodstore_report' %}" class="nav-link">
+                <i class=""></i>
+                <p>Productos|Almacenes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'inventaryprodpvp_report' %}" class="nav-link">
+                <i class=""></i>
+                <p>Productos|Precio de venta</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+               <i class="fas fa-chart-pie"></i>
+                     <p>
+              Graficas
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none;">
+
+            <li class="nav-item">
+              <a href="{% url 'output_grafic' %}" class="nav-link">
+                <i class=""></i>
+                <p>Salidas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'input_grafic' %}" class="nav-link">
+                <i class=""></i>
+                <p>Entradas</p>
+              </a>
+            </li>
+           
+
+          </ul>
+        </li>
+        <li class="nav-header">General </li>
+        <li class="nav-item">
+          <a href="{% url 'config_edit' config %}" class="nav-link">
+            <i class="fas fa-tachometer-alt"></i>  
+            <p>
+              Configuraciones
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'user:user_profile' %}" class="nav-link">
+            <i class="fas fa-edit "></i> 
+            <p>
+              Editar Perfil
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'user:user_change_password' %}" class="nav-link">
+            <i class="fas fa-lock"></i>
+            <p>
+              Cambiar Clave
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>

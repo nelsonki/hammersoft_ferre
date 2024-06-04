@@ -1,0 +1,21 @@
+{% extends 'form.html' %}
+{% block miForm %}
+<div class="form-row">
+            <div class="form-group col-md-6">
+              <label  >{{form.name.label}}</label>
+                {{form.name}}
+             </div>
+            <div class="form-group col-md-6">
+              <label  >{{form.image.label}}</label>
+                 <br/>{{ form.image}}
+             </div>
+          </div>
+          <div class="form-group">
+            <label  >{{form.description.label}}</label>
+            
+              {{form.description}}
+           </div>
+<script>
+  console.log({{ form.get_image }})
+</script>
+{% endblock%}

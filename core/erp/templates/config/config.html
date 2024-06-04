@@ -1,0 +1,32 @@
+{% extends 'form.html' %}
+{% load static %}
+{% block miForm %}
+ 
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+        <label  >{{form.cambioVentaDolarBs.label}}</label>
+           <br/>{{ form.cambioVentaDolarBs}}
+           <p>
+            {% for config in dataConfig %}
+            <small>$1 = {{ config.cambioVentaDolarBs }}</small>
+            {% endfor%}
+          </p>       </div>
+       <div class="form-group col-md-4">
+          <label  >{{form.cambioVentaDolarCop.label}}</label>
+             <br/>{{ form.cambioVentaDolarCop}}
+             <p>
+              {% for config in dataConfig %}
+              <small>$1 = {{ config.cambioVentaDolarCop }}</small>
+              {% endfor%}
+            </p>
+
+         </div>
+  </div>
+
+ {% endblock %}  
+ {% block miCancelar %}
+<a  href="{{cancelar}}" class="btn btn-default btnTest">
+<i class="fas fa-times"> Cancelar</i>
+</a>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'lib/moment-2.25.3/moment.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/spanish.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/daterangepicker.js' %}"></script>
+<link rel="stylesheet" href="{% static 'lib/daterangepicker-3.1/daterangepicker.css' %}" />
+
+<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+<link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.bootstrap.min.css' %}" />
+<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/dataTables.buttons.min.js' %}"
+    type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/jszip-2.5.0/jszip.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/pdfmake.min.js' %}"
+    type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/vfs_fonts.js' %}" type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.html5.min.js' %}"
+    type="text/javascript"></script>
+<script src="{% static 'closing/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">
+                {% if action == 'add' %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-edit"></i>
+                {% endif %}
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-boxes"></i> Detalle de salidas</h3>
+                        </div>
+                        
+                        <div class="card-body">
+                            
+                             
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>Rango de fechas:</label>
+                                    <input type="text" name="date_range" id="date_range" class='form-control  '/>
+                                 </div>
+                            </div>
+                           
+                            <hr>
+               
+                            <table class="table table-bordered table-responsive" style="display:inline-table !important"
+                                id="example">
+                                <thead>
+                                    <tr>
+                                        <th>Id salida</th>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-shopping-cart"></i> Datos del cierre de salidas
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <input type="hidden" name="action" value="{{ action }}">
+                            
+                            <div class="form-group">
+                                <label>Observación:</label>
+                                {{ form.observation }}
+                            </div>                        
+                            
+                            <div class="form-group">
+                                <label>Total de las facturas (Dolares $):</label>
+                                {{ form.total }}
+                            </div>
+                            <div class="form-group">
+                                <label>(Pesos recibidos):</label> 
+                                {{ form.peso }}
+                              
+                               
+                            </div>
+                            <div class="form-group">
+                                <label>(Bolivares recibidos):</label> 
+                                {{ form.bolivar }}
+                                
+                             
+                            </div>
+                            <div class="form-group">
+                                <label>(Dolares recibidos):</label> 
+                                {{ form.dolar }}
+                                
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="button" id="save" class="btn btn-primary btn-flat">
+                <i class="fas fa-save"></i> Guardar registro
+            </button>
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+            <!--<div class="callout callout-warning mt-2">
+                <h5><i class="icon fas fa-exclamation-triangle"></i>  Notas!</h5>
+                <p>- Las Salidas de productos que se agregan , seran enviados al <b>STOCK del almacen seleccionando</b>.</p>
+                <p>- Las <b>operaciones</b> no se pueden editar despues de ser creadas, para la integridad del inventario.</p>
+
+              </div>-->
+        </div>
+    </div>
+</form>
+  
+{% if action == 'edit' %}
+<script>
+
+
+$(document).ready(function() {
+    var data = {{ det | safe }};
+
+    var date_in = moment(data[0].date_in).toDate();
+    var date_end = moment(data[0].date_end).toDate();
+    $('input[name="date_range"]').daterangepicker();
+
+    $('input[name="date_range"]').data('daterangepicker').setStartDate(date_in);
+    $('input[name="date_range"]').data('daterangepicker').setEndDate(date_end);
+    parameters['data_in'] = date_in;
+        parameters['data_end'] = date_end;
+    //generate_report()
+});
+
+
+</script>
+{% endif %}
+
+
+{% endblock %}

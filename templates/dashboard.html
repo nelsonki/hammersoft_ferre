@@ -1,0 +1,377 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% if exception and debug %}
+<h3 class="font-bold">{{ exception }}</h3>
+{% endif %}
+{% block head %}
+<script src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+<script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+<script src="{% static 'dashboard/js/list.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-3 col-6">
+    <!-- small card -->
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3>{{cantInput}}</h3>
+
+        <p>Entradas</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-arrow-circle-right"></i>
+      </div>
+      <a href="{% url 'input_list' %}" class="small-box-footer">
+        ver más <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+  <!-- ./col -->
+  <div class="col-lg-3 col-6">
+    <!-- small card -->
+    <div class="small-box bg-success">
+      <div class="inner">
+        <h3>{{ cantProd }}<sup style="font-size: 20px"></sup></h3>
+
+        <p>Productos</p>
+      </div>
+      <div class="icon">
+        <i class="nav-icon fas fa-boxes"></i>
+      </div>
+      <a href="{% url 'product_list' %}" class="small-box-footer">
+        ver más <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+  
+  <!-- ./col -->
+  <div class="col-lg-3 col-6">
+    <!-- small card -->
+    <div class="small-box bg-danger">
+      <div class="inner">
+        <h3>{{cantOutput}}</h3>
+
+        <p>Salidas</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-shopping-cart"></i>
+      </div>
+      <a href="{% url 'output_list'  %}" class="small-box-footer">
+        ver más <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+  <!-- ./col -->
+  <!-- ./col -->
+  <div class="col-lg-3 col-6">
+    <!-- small card -->
+    <div class="small-box bg-warning">
+      <div class="inner">
+        <h3>{{cantUser}}</h3>
+
+        <p>Usuarios</p>
+
+
+      </div>
+      <div class="icon">
+        <i class="fas fa-user-plus"></i>
+      </div>
+
+      <a href="{% url 'user:user_list'  %}" class="small-box-footer">
+        ver más <i class="fas fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+
+
+      <div class="card">
+        <div class="card-header border-transparent">
+          <h3 class="card-title">Ultimas 5 salidas de productos</h3>
+      
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+              <thead>
+                <tr>
+                  <th scope="col">Nro</th>
+                  <th scope="col">Cliente</th>
+                  <th scope="col">Fecha de registro</th>
+                  <th scope="col">Subtotal</th>
+                  <th scope="col">Iva</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Opciones</th>
+              </tr>
+      
+                  </thead>
+                  <tbody >
+                       {% block rows %}
+                      {% endblock %}
+      
+                   </tbody>
+                  <tfoot>
+      
+                  </tfoot>
+          </table>
+          </div>
+          <!-- /.table-responsive -->
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <a href="{% url 'output_create' %}" class="btn btn-sm btn-info float-left">Nueva Salida</a>
+        </div>
+        <!-- /.card-footer -->
+      </div>
+
+
+
+
+    </div>
+ 
+    <div class="col-lg-6">
+      <div id="container"></div>
+    </div>
+  </div>
+  <br>
+ 
+ 
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="container-pie"></div>
+    </div>
+  </div>
+  <br>
+  <div class="modal fade" id="myModelDet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+   <div class="modal-content">
+       <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel"><b><i class="fas fa-shopping-cart"></i> Consulta de
+               detalle de productos</b></h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+           </button>
+       </div>
+       <div class="modal-body">
+           <table class="table table-bordered" id="tblDet">
+               <thead>
+               <tr>
+                   <th>Producto</th>
+                   <th>Categoría</th>
+                   <th>PVP</th>
+                   <th>Cantidad</th>
+                   <th>Subtotal</th>
+               </tr>
+               </thead>
+               <tbody>
+               </tbody>
+           </table>
+       </div>
+   </div>
+</div>
+</div>
+</div>
+<script type="application/javascript">
+  var graphcolumn = Highcharts.chart('container', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Reporte de ventas del año {{year}}'
+    },
+    subtitle: {
+      text: 'Reporte de columnas'
+    },
+    xAxis: {
+      categories: [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+      ],
+      crosshair: true
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: 'Valores $'
+      }
+    },
+    tooltip: {
+      headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+        '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+      footerFormat: '</table>',
+      shared: true,
+      useHTML: true
+    },
+    plotOptions: {
+      column: {
+        pointPadding: 0.2,
+        borderWidth: 0
+      }
+    },
+  });
+  var graphpie = Highcharts.chart('container-pie', {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: 'Porcentaje de venta de productos por el mes ' + getMonthByNumber() +' del año {{year}}'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+      point: {
+        valueSuffix: '%'
+      }
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+        }
+      }
+    },
+  });
+
+  function get_graph_output_year_month() {
+    $.ajax({
+      url: window.location.pathname, //window.location.pathname
+      type: 'POST',
+      data: {
+        'action': 'get_graph_output_year_month'
+      },
+      dataType: 'json',
+    }).done(function (data) {
+      if (!data.hasOwnProperty('error')) {
+        graphcolumn.addSeries(data);
+        return false;
+      }
+      message_error(data.error);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      alert(textStatus + ': ' + errorThrown);
+    }).always(function (data) {
+
+    });
+  }
+
+  function get_graph_output_products_year_month() {
+    $.ajax({
+      url: window.location.pathname, //window.location.pathname
+      type: 'POST',
+      data: {
+        'action': 'get_graph_output_products_year_month'
+      },
+      dataType: 'json',
+    }).done(function (data) {
+      if (!data.hasOwnProperty('error')) {
+        graphpie.addSeries(data);
+        return false;
+      }
+      message_error(data.error);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      alert(textStatus + ': ' + errorThrown);
+    }).always(function (data) {
+
+    });
+  }
+
+  $(function () {
+    var mesLetra = {{month}};
+     get_graph_output_year_month();
+
+    get_graph_output_products_year_month();
+
+  });
+  function getMonthByNumber() {
+    var mes = '';
+    var mesLetra = {{month}};
+    switch (mesLetra) {
+      case 01:
+        mes = 'enero';
+        break;
+      case 02:
+        mes = 'febrero';
+        break;
+      case 03:
+        mes = 'marzo';
+        break;
+      case 04:
+        mes = 'abril';
+        break;
+      case 05:
+        mes = 'mayo';
+        break;
+      case 06:
+        mes = 'junio';
+        break;
+      case 07:
+        mes = 'julio';
+        break;
+      case 08:
+        mes = 'agosto';
+        break;
+      case 09:
+        mes = 'septiembre';
+        break;
+      case 10:
+        mes = 'octubre';
+        break;
+      case 11:
+        mes = 'noviembre';
+        break;
+      case 12:
+        mes = 'diciembre';
+        break;
+    }
+    return mes;
+  }
+ 
+  $(document).ready(function() {
+    $('#example').DataTable();
+});
+
+
+</script>
+{% endblock %}

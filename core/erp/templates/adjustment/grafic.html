@@ -1,0 +1,202 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% if exception and debug %}
+<h3 class="font-bold">{{ exception }}</h3>
+{% endif %}
+{% block head %}
+<script src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+{% endblock %}
+{% block content %}
+ 
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="container"></div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-12">
+      <div id="container-pie"></div>
+    </div>
+  </div>
+  <br>
+</div>
+<script type="application/javascript">
+  var graphcolumn = Highcharts.chart('container', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Reporte de Ventas del año {{year}}'
+    },
+    subtitle: {
+      text: 'Reporte de columnas'
+    },
+    xAxis: {
+      categories: [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+      ],
+      crosshair: true
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: 'Valores $'
+      }
+    },
+    tooltip: {
+      headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+      pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+        '<td style="padding:0"><b>{point.y:.1f} $</b></td></tr>',
+      footerFormat: '</table>',
+      shared: true,
+      useHTML: true
+    },
+    plotOptions: {
+      column: {
+        pointPadding: 0.2,
+        borderWidth: 0
+      }
+    },
+  });
+  var graphpie = Highcharts.chart('container-pie', {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: 'Porcentaje de Ventas de productos por el mes ' + getMonthByNumber() +' del año {{year}}'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+      point: {
+        valueSuffix: '%'
+      }
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+        }
+      }
+    },
+  });
+
+  function get_graph_output_year_month() {
+    $.ajax({
+      url: window.location.pathname, //window.location.pathname
+      type: 'POST',
+      data: {
+        'action': 'get_graph_output_year_month'
+      },
+      dataType: 'json',
+    }).done(function (data) {
+      if (!data.hasOwnProperty('error')) {
+        graphcolumn.addSeries(data);
+        return false;
+      }
+      message_error(data.error);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      alert(textStatus + ': ' + errorThrown);
+    }).always(function (data) {
+
+    });
+  }
+
+  function get_graph_output_products_year_month() {
+    $.ajax({
+      url: window.location.pathname, //window.location.pathname
+      type: 'POST',
+      data: {
+        'action': 'get_graph_output_products_year_month'
+      },
+      dataType: 'json',
+    }).done(function (data) {
+      if (!data.hasOwnProperty('error')) {
+        graphpie.addSeries(data);
+        return false;
+      }
+      message_error(data.error);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      alert(textStatus + ': ' + errorThrown);
+    }).always(function (data) {
+
+    });
+  }
+
+  $(function () {
+    var mesLetra = {{month}};
+     get_graph_output_year_month();
+
+    get_graph_output_products_year_month();
+
+  });
+  function getMonthByNumber() {
+    var mes = '';
+    var mesLetra = {{month}};
+    switch (mesLetra) {
+      case 01:
+        mes = 'enero';
+        break;
+      case 02:
+        mes = 'febrero';
+        break;
+      case 03:
+        mes = 'marzo';
+        break;
+      case 04:
+        mes = 'abril';
+        break;
+      case 05:
+        mes = 'mayo';
+        break;
+      case 06:
+        mes = 'junio';
+        break;
+      case 07:
+        mes = 'julio';
+        break;
+      case 08:
+        mes = 'agosto';
+        break;
+      case 09:
+        mes = 'septiembre';
+        break;
+      case 10:
+        mes = 'octubre';
+        break;
+      case 11:
+        mes = 'noviembre';
+        break;
+      case 12:
+        mes = 'diciembre';
+        break;
+    }
+    return mes;
+  }
+</script>
+{% endblock %}

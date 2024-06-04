@@ -1,0 +1,34 @@
+{% extends 'list.html' %}
+{% block icons %}
+        <i class="fas fa-truck-loading"></i>
+{% endblock %}
+{% block buttons_listNuevo %}
+{% if not count_store == 2%}
+        <a title="Nuevo" href="{{ create_url }}" class="btn btn-success"><i class="fas fa-solid fa-plus"></i> Nuevo Registro</a>
+        {% endif %}
+        {% endblock %}
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 5%;">ID</th>
+    <th scope="col" style="width: 30%;">Nombre</th>
+
+    <th scope="col" style="width: 15%;">Opciones</th>
+
+</tr>
+{% endblock %}
+{% block rows %}
+{% for store in object_list %}
+<tr >
+    <td>{{store.id}}</td>
+    <td>{{store.name}}</td>
+
+
+    <td>
+        <a href="{% url 'storeprod_edit' store.id %}" class="btn btn-primary" title="Editar Registro"><i
+                class="fas fa-solid fa-edit"></i></a>
+        <a href="{% url 'storeprod_delete' store.id %}" class="btn btn-danger" title="Eliminar Registro"><i
+                class="fas fa-solid fa-trash"></i></a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Inventario | Barras</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'homepage/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'homepage/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'homepage/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'homepage/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'homepage/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'homepage/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'homepage/vendor/owl.carousel/assets/owl.carousel.min.css' %}assets/" rel="stylesheet">
+  <link href="{% static '/homepage/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'homepage/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: iPortfolio - v1.2.0
+  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="d-flex flex-column">
+
+      <div class="profile">
+        <img src="{% static 'homepage/img/barras.jpeg' %}" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a href="#">INVERSIONES ANLIL 2022, C.A</a></h1>
+      
+      </div>
+
+      <nav class="nav-menu">
+        <ul>
+       
+          {% if request.user.is_authenticated %}
+          <li><a href="{% url 'dashboard' %}"> <i class='bx bxs-user'></i> Bienvenido {{request.user.username}}</a></li>
+          {% else %}
+                    <li><a href="{% url 'login' %}"><i class='bx bx-log-in-circle' ></i> Iniciar Sesión Inventario</a></li>
+
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+      <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i>
+<nav class="nav-menu">
+        <ul>
+       
+          {% if request.user.is_authenticated %}
+          <li><a href="{% url 'dashboard' %}"> <i class='bx bxs-user'></i> Bienvenido {{request.user.username}}</a></li>
+          {% else %}
+                    <li><a href="{% url 'login' %}"><i class='bx bx-log-in-circle' ></i> Iniciar Sesión Inventario</a></li>
+
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+</button>
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="hero-container" >
+      
+    </div>
+  </section><!-- End Hero -->
+ <!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>HammerSoft</span></strong>
+      </div>
+     
+    </div>
+  </footer><!-- End  Footer -->
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'homepage/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'homepage/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/typed.js/typed.min.js' %}"></script>
+  <script src="{% static 'homepage/vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

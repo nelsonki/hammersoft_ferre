@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+    .img-invoice {
+        width: 80px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    .dir {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <img src="{{ icon }}" class="img-invoice">
+    <p class="head"><b>{{ comp.name|upper }}</b><br/>  
+      {{ comp.ruc }}</p>
+
+    <p>
+        <b>DESDE EL ALMACEN:</b> {{ movement.in_store }}<br>
+        <b>HASTA EL ALMACEN:</b> {{ movement.out_store }}<br>
+        <b>FECHA DE MOVIMIENTO:</b> {{ movement.date_joined }}<br>
+        <b>DESCRIPCIÓN:</b> {{ movement.description }}<br>
+    </p>
+    <table id="invoice">
+        <thead>
+            <tr>
+                <th style="width: 30%;">CATEGORIA</th>
+                <th style="width: 50%;">PRODUCTO</th>
+                <th style="width: 20%;">CANT</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in movement.detmov_set.all %}
+            <tr {% if forloop.first %}style="padding-top: 3px;" {% endif %}>
+                <td>{{ d.prod.cate.name }}</td>
+                <td>{{ d.prod.name }}</td>
+                <td class="text-center">{{ d.amount }}</td>
+            </tr>
+            {% endfor %}
+      
+        </tbody>
+    </table>
+    <table style="margin-top: 250px;">
+        <thead>
+            <tr>
+                <th>********</th>
+            </tr>
+            <tr>
+                <th></th>
+            </tr>
+
+        </thead>
+    </table>
+    <p class="dir"> {{ comp.address|upper }}</p>
+
+</body>
+
+</html>

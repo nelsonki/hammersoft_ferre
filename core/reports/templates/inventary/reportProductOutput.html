@@ -1,0 +1,126 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'lib/moment-2.25.3/moment.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/spanish.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/daterangepicker.js' %}"></script>
+<link rel="stylesheet" href="{% static 'lib/daterangepicker-3.1/daterangepicker.css' %}" />
+
+<link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.bootstrap.min.css' %}" />
+<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/dataTables.buttons.min.js' %}"
+    type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/jszip-2.5.0/jszip.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/pdfmake.min.js' %}"
+    type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/vfs_fonts.js' %}" type="text/javascript"></script>
+<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.html5.min.js' %}"
+    type="text/javascript"></script>
+
+<script src="{% static 'inventary/js/reportProd.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">
+            <i class="fas fa-chart-bar"></i>
+            {{ title }}
+        </h3>
+        <h3 class="card-title float-right">
+            <button type="submit" id="enviarPorCorreo" class="btn btn-success btn-flat">
+                <i class="fas fa-solid fa-envelope"></i> Enviar por correo
+            </button>
+        </h3>
+        <h3 class="card-title float-right">
+            <a title="Actualizar" href="{{ list_url }}" class="btn btn-primary btn-flat"><i class="fas fa-sync"></i></a>
+
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Rango de fechas:</label>
+                    {{ form.date_range }}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <table class="table table-bordered" id="example">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 15%;">Codigo de producto</th>
+                    <th scope="col" style="width: 30%;">Nombre</th>
+                    <th scope="col" style="width: 10%;">cantidad vendida </th>
+                    <th scope="col" style="width: 300%;">Sub total</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="application/javascript">
+
+$('#enviarPorCorreo').on('click', function (e) {
+      
+      e.preventDefault();
+      var parameters = new FormData();
+      parameters.append('action', 'search_report');
+      if (date_range !== null) {
+          parameters.append('start_date', date_range.startDate.format('YYYY-MM-DD HH:MM'));
+          parameters.append('end_date' , date_range.endDate.format('YYYY-MM-DD HH:MM'));
+  }
+      Swal.fire({
+          title: 'Notificación',
+          input: 'email',
+          inputPlaceholder: 'Escribe el correo...',
+          inputAttributes: {
+              'aria-label': 'Escribe el correo...'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Enviar',
+          cancelButtonText: 'Cancelar',
+          showLoaderOnConfirm: true,
+          preConfirm: (message) => {
+              if (!message) {
+                  Swal.showValidationMessage(
+                      'No puedes enviar un mensaje vacío.'
+                  )
+              } else {
+
+                   parameters.append('correo', message);
+
+    
+                  console.log(parameters)
+                  submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de enviar el reporte?', parameters, function (response) {
+                      Swal.fire({
+                          title: 'Notificación',
+                          text: 'El reporte fue enviado al correo',
+                          icon: 'success',
+                          timer: 5000,
+                          onClose: () => {
+                              $('#myModalReport').modal('hide');
+                          }
+                      })
+                  });
+
+              }
+          },
+          allowOutsideClick: () => !Swal.isLoading()
+      })
+
+
+
+
+  });
+   
+
+</script>
+{% endblock %}

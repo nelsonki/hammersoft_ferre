@@ -1,0 +1,236 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<link href="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+
+<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+<script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+<script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+<link href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+<link href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+
+<script src="{% static 'order/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">
+                {% if action == 'add' %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-edit"></i>
+                {% endif %}
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-boxes"></i> Detalle de productos</h3>
+                        </div>
+                        
+                        <div class="card-body">
+                            
+                             
+                            <div class="form-group">
+                                <label>Almacen:</label>
+                                <div class="input-group">
+                                    {{ form.store }}
+                                    
+                                </div>
+
+                            </div>
+                            <hr>
+
+                            <div class="form-group">
+                                <label>Buscador de productos:</label>
+                                <div class="input-group">
+                                    <select class="form-control select2" style="width: 100%;" name="search">
+                                    </select>
+
+                                </div>
+                            </div>
+                            <hr>
+                            <button type="button" class="btn btn-danger btn-xs btn-flat btnRemoveAll mb-2"><i
+                                    class="fas fa-trash"></i> Elminar todos los items</button>
+                            <table class="table table-bordered table-responsive" style="display:inline-table !important"
+                                id="tblProducts">
+                                <thead>
+                                    <tr>
+                                        <th>Eliminar</th>
+                                        <th>Producto</th>
+                                        <th>Stock</th>
+                                        <th>Tipo de PVP</th>
+                                        <th>PVP</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-shopping-cart"></i> Datos de la Orden de Salida de productos
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <input type="hidden" name="action" value="{{ action }}">
+                            
+                            <div class="form-group">
+                                <label>Fecha de Orden de Salida:</label>
+                                {{ form.date_joined }}
+                            </div>
+                            <div class="form-group">
+                                <label>Cliente:</label>
+                                <div class="input-group">
+                                    {{ form.cli }}
+                                    <div class="input-group-append">
+                                        <button class="btn btn-success btn-flat btnAddClient" type="button">
+                                            <i class="fas fa-user-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Subtotal:</label>
+                                {{ form.subtotal }}
+                            </div>
+                            <div class="form-group">
+                                <label>IVA (16%):</label>
+                                {{ form.tax }}
+                            </div>
+                            <div class="form-group">
+                                <label>IVA Calculado:</label>
+                                <input type="text"  style='text-align:end'  class="form-control" readonly name="taxcalc" value="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Total a pagar (Dolares $):</label>
+                                {{ form.total }}
+                            </div>
+                            <div class="form-group">
+                                <label>(Pesos):</label> 
+                                {{ form.peso }}
+                                <p>
+                                    {% for config in dataConfig %}
+                                    <input type="hidden" name="pesos" value="{{ config.cambioVentaDolarCop }}"/>
+
+                                    <small>$1 = {{ config.cambioVentaDolarCop }} pesos</small>
+                                    {% endfor%}
+                                  </p>
+                               
+                            </div>
+                            <div class="form-group">
+                                <label>(Bolivares):</label> 
+                                {{ form.bolivar }}
+                                
+                                <p>
+                                    {% for config in dataConfig %}
+                                    <input type="hidden" name="bolivares" value="{{ config.cambioVentaDolarBs }}"/>
+                                    <small>$1 = {{ config.cambioVentaDolarBs }} bolivares</small>
+                                    {% endfor%}
+                                  </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="button" id="save" class="btn btn-primary btn-flat">
+                <i class="fas fa-save"></i> Guardar registro
+            </button>
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+            <div class="callout callout-warning mt-2">
+                <h5><i class="icon fas fa-exclamation-triangle"></i>  Notas!</h5>
+                <p>- Los productos que se agregan en esta salida, seran enviados al <b>STOCK del almacen seleccionando</b>.</p>
+                <p>- Las <b>operaciones</b> no se pueden editar despues de ser creadas, para la integridad del inventario.</p>
+
+              </div>
+        </div>
+    </div>
+</form>
+<!-- Modal -->
+<div class="modal fade" id="myModalClient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <form id="frmClient" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <b><i class="fas fa-user-plus"></i> Nuevo registro de un cliente</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>{{frmClient.name.label}}</label>
+                            {{frmClient.name}}
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>{{frmClient.lastname.label}}</label>
+                            {{frmClient.lastname}}
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>{{frmClient.dni.label}}</label>
+                            <br />{{frmClient.dni}}
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>{{frmClient.gender.label}}</label>
+                            {{frmClient.gender}}
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>{{frmClient.kind.label}}</label>
+                            {{frmClient.kind}}
+                        </div>
+                         
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">
+                        <i class="fas fa-save"></i> Guardar Cliente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% if action == 'edit' %}
+<script>
+
+    vents.items.products = {{ det | safe }};
+
+
+
+</script>
+{% endif %}
+{% endblock %}

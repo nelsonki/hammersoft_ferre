@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+    .img-invoice {
+        width: 80px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    .dir {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <img src="{{ icon }}" class="img-invoice">
+    <p class="head"><b>{{ comp.name|upper }}</b><br/>  
+      {{ comp.ruc }}</p>
+
+    <p>
+        <b>ADJUSTE:</b> {{ adjustment.id }}<br>
+        <b>FECHA DE ADJUSTE:</b> {{ adjustment.date_joined }}<br>
+        <b>ALMACEN:</b> {{ adjustment.store.name }}<br>
+
+    </p>
+    <table id="invoice">
+        <thead>
+            <tr>
+                <th style="width: 30%;">PRODUCTO</th>
+                <th style="width: 20%;">TIPO DE ADJUSTE</th>
+                <th style="width: 10%;">ALMACEN1 ANTES</th>
+                <th style="width: 10%;">ALMACEN2 ANTES</th>
+
+                <th style="width: 10%;">CANTIDAD</th>
+
+                <th style="width: 10%;">ALMACEN1 DESPUES</th>
+                <th style="width: 10%;">ALMACEN2 DESPUES</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in adjustment.detadjustment_set.all %}
+            <tr {% if forloop.first %}style="padding-top: 3px;" {% endif %}>
+                <td>{{ d.prod.name }}</td>
+                
+             <td> {{ d.get_types_display  }}</td>
+                
+                <td>{{ d.store1_previous }}</td>
+                <td>{{ d.store2_previous }}</td>
+
+                <td class="text-center">{{ d.amount }}</td>
+
+                <td>{{ d.store1_next }}</td>
+                <td>{{ d.store2_next }}</td>
+
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    <table style="margin-top: 250px;">
+        <thead>
+            <tr>
+                <th>****OBSERVACIONES****</th>
+
+            </tr>
+            
+
+        </thead>
+    </table>
+    <p class="dir"> {{ adjustment.observation|upper }}</p>
+    <p class="dir"> </p>
+
+ 
+</body>
+
+</html>

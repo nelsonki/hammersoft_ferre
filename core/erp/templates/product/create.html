@@ -1,0 +1,158 @@
+{% extends 'form.html' %}
+{% load static %}
+
+{% block head_form %}
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <script src="{% static 'product/js/form.js' %}"></script>
+{% endblock %}
+{% block miForm %}
+<div class="form-row">
+  <div class="form-group col-md-4">
+
+    <div class="custom-control custom-switch">
+      {{form.is_combo}}   
+         <label class="custom-control-label" for="customSwitch1">{{form.is_combo.label}}</label>
+    </div>
+
+
+
+ </div>
+</div>
+<div class="form-row">
+     <div class="form-group col-md-4">
+      <label>{{form.image.label}}</label>
+      <br />{{form.image}}
+    </div>
+    <div class="form-group col-md-4">
+      <label>{{form.stock_min.label}}</label>
+      <br />{{form.stock_min}}
+    </div>
+    <div class="form-group col-md-4">
+      <p ><small class="text-success">* Colocando la minima existencia del producto, el sistema mostrará  alertas cuando el stock sea menor a la existencia minima.</small></p>
+    </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-md-3">
+    <label>{{form.code.label}}</label>
+    {{form.code}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.name.label}}</label>
+    {{form.name}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.cate.label}}</label>
+    {{form.cate}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.is_active.label}}</label>
+    {{form.is_active}}
+  </div>
+</div>
+<div class="form-row">
+  
+  <div class="form-group col-md-3">
+    <label>{{form.store.label}}</label>
+    {{form.store}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.classPro.label}}</label>
+    {{form.classPro}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.tradinghouse.label}}</label>
+    {{form.tradinghouse}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.codbar.label}}</label>
+    <br />{{form.codbar}}
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-md-3">
+    <label>{{form.price_in.label}}</label>
+    {{form.price_in}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.pvp.label}}</label>
+    <br />{{form.pvp}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.pvp2.label}}</label>
+    {{form.pvp2}}
+
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.pvp3.label}}</label>
+    {{form.pvp3}}
+  </div>
+
+</div>
+<div class="form-row">
+    <div class="form-group col-md-3">
+    <label>{{form.lt.label}}</label>
+    {{form.lt}}
+  </div>
+  <div class="form-group col-md-3">
+    <label>{{form.capacity.label}}</label>
+    {{form.capacity}}
+  </div>
+ 
+  <div class="form-group col-md-3">
+    <label>Stock General</label>
+
+    <input type="text" class="form-control" name="product_stock_general" value="{{ product_stock_general }}" readonly>
+   
+      
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let customSwitch = document.getElementById("customSwitch1");
+    let inputs = document.querySelectorAll("#pvp, #pvp2, #pvp3");
+    
+    if (customSwitch.checked) {
+        inputs.forEach(function(input) {
+            input.disabled = true;
+        });
+    }
+});
+  document.getElementById("customSwitch1").addEventListener("click", function() {
+ 
+        let inputs = document.querySelectorAll("#stock_min, #pvp, #pvp2, #pvp3");
+        inputs.forEach(function(input) {
+            input.disabled = this.checked;
+        }, this);
+    });
+
+function validarInput(input) {
+ let valor = input.value;
+ if (!valor) {
+    input.value = 0;
+ } else {
+    if (isNaN(valor)) {
+      input.value = 0; 
+    } else {
+      input.value = valor;
+    }
+ }
+}
+
+$('#pvp3').on('blur', function () {
+  validarInput(this)
+})
+$('#pvp2').on('blur', function () {
+  validarInput(this)
+})
+$('#pvp').on('blur', function () {
+  validarInput(this)
+})
+$('#stock_min').on('blur', function () {
+  validarInput(this)
+})
+</script>
+
+{% endblock%}

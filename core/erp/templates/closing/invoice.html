@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+    .img-invoice {
+        width: 80px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    .dir {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+
+    #invoice,  thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <img src="{{ icon }}" class="img-invoice">
+    <p class="head"><b>{{ comp.name|upper }}</b><br/>  
+      {{ comp.ruc }}</p>
+
+    <p>
+        <b>FECHA DE CIERRE:</b> {{ closing.date_joined }}<br>
+        <b>RANGO DE FECHA DE CIERRE:</b> {{ closing.date_in}} - {{ closing.date_end }}<br>
+        <b>CANTIDAD DE FACTURAS:</b> {{ closing.cant_input }}<br>
+    </p>
+    <table id="invoice">
+        <thead  style="padding-bottom: 20px; " >
+            <tr>
+                <th style="width: 30%;">DESDE </th>
+                <th style="width: 30%;">HASTA</th>
+                <th style="width: 10%;">TOTAL</th>
+                <th style="width: 15%;">BOLIVARES RECIBIDOS</th>
+                <th style="width: 15%;">PESOS <br>RECIBIDOS</th>
+                <th style="width: 15%;">DOLARES RECIBIDOS</th>
+
+            </tr>
+        </thead>
+        <tbody>
+             <tr  >
+                <td style="padding-top: 5px;">{{ closing.date_in}}</td>
+                <td style="padding-top: 5px;">{{ closing.date_end }}</td>
+                <td style="text-align: right; padding-top: 5px;">${{ closing.total }}</td>
+                <td style="text-align: right; padding-top: 5px;">{{ closing.bolivar }}</td>
+                <td style="text-align: right; padding-top: 5px;">{{ closing.peso }}</td>
+                <td style="text-align: right; padding-top: 5px;">${{ closing.dolar }}</td>
+
+            </tr>
+          
+        </tbody>
+    </table>
+
+    <table id="invoice2" style="margin-top: 20px; padding-top: 10px; border: 1 solid;">
+        <thead>
+            <tr>
+                <th >CODIGO DE PRODUCTO</th>
+                <th >NOMBRE DE PRODUCTO</th>
+                <th >CANTIDAD</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for det in detClosing %}
+            <tr>
+                {% for element in det %}
+                <td style="padding-left: 5px;"> {{ element }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+ 
+</body>
+
+</html>

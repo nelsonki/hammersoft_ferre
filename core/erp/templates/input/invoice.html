@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+    .img-invoice {
+        width: 80px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .head {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+
+    .dir {
+        text-align: justify;
+        text-transform: uppercase;
+        font-size: 10px;
+    }
+
+    #invoice thead tr th {
+        text-align: left;
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        padding-top: 4px;
+    }
+
+    #invoice thead tr {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    #invoice tbody tr {
+        padding: 0;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <img src="{{ icon }}" class="img-invoice">
+    <p class="head"><b>{{ comp.name|upper }}</b><br/>  
+      {{ comp.ruc }}</p>
+
+    <p>
+        <b>TIPO:</b> {{ input.tipoFacNot.name  }}<br>
+        <b>Nro LIQUIDACIÓN:</b> {{ input.num_liquidacion }}<br>
+
+        <b>FECHA DE COMPRA:</b> {{ input.date_joined }}<br>
+        <b>PROVEEDOR:</b> {{ input.cli.name|upper }}<br>
+        <b>DNI:</b> {{ input.cli.dni }}<br>
+    </p>
+    <table id="invoice">
+        <thead>
+            <tr>
+                <th style="width: 20%;">CATEGORIA</th>
+                <th style="width: 40%;">PRODUCTO</th>
+                <th style="width: 10%;">CANT</th>
+                <th style="width: 15%;">P.UNITARIO</th>
+                <th style="width: 15%;">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in input.detinput_set.all %}
+            <tr {% if forloop.first %}style="padding-top: 3px;" {% endif %}>
+                <td>{{ d.prod.cate.name }}</td>
+                <td>{{ d.prod.name }}</td>
+                <td class="text-center">{{ d.amount }}</td>
+                <td class="text-center">${{ d.cost }}</td>
+                <td style="text-align: right;">${{ d.subtotal }}</td>
+            </tr>
+            {% endfor %}
+            <tr style="border-top: 1px solid black; padding-top: 4px;">
+                <td colspan="4"><b>SUBTOTAL</b></td>
+                <td style="text-align: right">${{ input.subtotal }}</td>
+            </tr>
+            <tr style="padding-top: 0px;">
+                <td colspan="4"><b>IVA 16%</b></td>
+                <td style="text-align: right">${{ input.tax }}</td>
+            </tr>
+            <tr style="padding-top: 0px;">
+                <td colspan="4"><b>TOTAL A PAGAR</b></td>
+                <td style="text-align: right">${{ input.total }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin-top: 250px;">
+        <thead>
+            <tr>
+                <th>********</th>
+            </tr>
+            <tr>
+                <th></th>
+            </tr>
+
+        </thead>
+    </table>
+    <p class="dir"> {{ comp.address|upper }}</p>
+
+</body>
+
+</html>
