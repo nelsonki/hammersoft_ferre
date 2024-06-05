@@ -1,23 +1,23 @@
-# Define la imagen base utilizando la versión de Python que necesitas
-FROM python:3.9
+# Usa una imagen base oficial de Python 3.
+FROM python:3.11.4
 
-# Configura las variables de entorno utilizadas por el contenedor
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Establece el directorio de trabajo en el contenedor
+# Configura el directorio de trabajo dentro del contenedor.
 WORKDIR /app
 
-# Instala las dependencias del proyecto Django
-# Copia el archivo 'requirements.txt' y ejecuta pip install sobre él
-COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# Variables de entorno.
+# ENV PYTHONUNBUFFERED=true
+ENV VAR_NAME=var_value
 
-# Copia el proyecto Django en el directorio de trabajo del contenedor
-COPY . /app/
+# Copia e instala los requisitos de dependencia.
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Abre el puerto por el cual el contenedor aceptará conexiones
+# Copia el resto de los archivos del proyecto en el contenedor.
+COPY . .
+
+# Expone el puerto en el que se ejecuta tu aplicación.
 EXPOSE 8000
 
-# Ejecuta el servidor Gunicorn para el proyecto Django
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app.wsgi:application"]
+# Define el comando para ejecutar tu aplicación.
+# REVISAR SI ESTE CMD ES CORRECTO PARA MI PROYECTO DE DJANGO.
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app.wsgi"]
