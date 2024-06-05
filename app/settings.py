@@ -25,6 +25,7 @@ SECRET_KEY = 'fd&a%**+le-74cq&mrlh^a0yp95!n5vf-q5u3+5f*9=6at1c2^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+ALLOWED_HOSTS = ['ferreteria-n3sd389c.b4a.run', 'other.allowed.host']
 
 #ALLOWED_HOSTS = ['*']
 # Application definition
@@ -125,11 +126,10 @@ STATICFILES_DIRS = [
 ]
 
 
-ALLOWED_HOSTS = ['ferreteria-n3sd389c.b4a.run', 'other.allowed.host']
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_PATH, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Usar el almacenamiento estático y de medios de Django durante la fase de desarrollo:
 if DEBUG:
