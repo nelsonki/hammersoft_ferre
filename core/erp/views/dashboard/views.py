@@ -1,6 +1,5 @@
 from datetime import datetime
 from itertools import product
-from msilib.schema import ListView
 
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
