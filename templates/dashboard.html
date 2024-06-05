@@ -5,19 +5,19 @@
 <h3 class="font-bold">{{ exception }}</h3>
 {% endif %}
 {% block head %}
-<script src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
-<script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
-<script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
-<script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
 
-<link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
-<script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+<link type="text/css" rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+<link type="text/css" rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+<script type="text/javascript" src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
 
-<script src="{% static 'dashboard/js/list.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/js/list.js' %}"></script>
 {% endblock %}
 {% block content %}
 <div class="row">
