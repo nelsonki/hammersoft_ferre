@@ -151,19 +151,19 @@ class ClosingCreateView(Configuration, LoginRequiredMixin, ValidatePermissionReq
                 with transaction.atomic():
                     tz = pytz.timezone('America/Caracas')
                     fecha = datetime.now(tz).strftime('%Y-%m-%d %H:%M')
-                    print(request.POST['observation'])
+                    ''' print(request.POST['observation'])
                     print(request.POST['total'])
                     print(request.POST['dolar'])
                     print(request.POST['peso'])
                     print(request.POST['bolivar'])
                     print(request.POST['data_in'])
-                    print(request.POST['data_end'])
+                    print(request.POST['data_end'])'''
                     # Deserializa 'misFacturas' de una cadena JSON a una lista de diccionarios en Python
                     misFacturas = json.loads(request.POST['misFacturas'])
                     cant_facturas=0
                     num_fact=''
                     for factura in misFacturas:
-                        output = Output.objects.get(id__in=str(factura.get('id')))
+                        output = Output.objects.get(id=factura.get('id'))
                         output.status = 1
                         output.save()
                         cant_facturas+=1
@@ -183,6 +183,7 @@ class ClosingCreateView(Configuration, LoginRequiredMixin, ValidatePermissionReq
                     closing.bolivar = float(request.POST['bolivar'])
                     closing.save()                     
                     data = {'id': closing.id}
+                
         else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         
