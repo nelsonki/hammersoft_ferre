@@ -20,4 +20,4 @@ EXPOSE 8000
 
 # Define el comando para ejecutar tu aplicación.
 # REVISAR SI ESTE CMD ES CORRECTO PARA MI PROYECTO DE DJANGO.
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "core.wsgi"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app.wsgi"]
