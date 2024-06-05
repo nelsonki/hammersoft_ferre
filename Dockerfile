@@ -9,8 +9,8 @@ ENV PYTHONUNBUFFERED=true
 #ENV VAR_NAME=var_value
 
 # Copia e instala los requisitos de dependencia.
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements .
+RUN pip install --no-cache-dir -r requirements
 
 # Copia el resto de los archivos del proyecto en el contenedor.
 COPY . .
