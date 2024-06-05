@@ -246,11 +246,11 @@ class Output(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-        return self.cli.name
+        return getattr(self.cli, 'name', 'N/A')
     
     def toJSON(self):
         item = model_to_dict(self, exclude=['store'])
-        item['cli'] = self.cli.name
+        item['cli'] = getattr(self.cli, 'name', 'N/A')
         item['subtotal'] = format(self.subtotal, '.2f')
         item['tax'] = format(self.tax, '.2f')
         item['totalDivisa'] = format(self.totalDivisa, '.2f')
@@ -332,11 +332,11 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-        return self.cli.name
+        return getattr(self.cli, 'name', 'N/A')
     
     def toJSON(self):
         item = model_to_dict(self, exclude=['store'])
-        item['cli'] = self.cli.name
+        item['cli'] = getattr(self.cli, 'name', 'N/A')
         item['subtotal'] = format(self.subtotal, '.2f')
         item['tax'] = format(self.tax, '.2f')
         item['totalDivisa'] = format(self.totalDivisa, '.2f')
@@ -399,11 +399,11 @@ class Input(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-        return self.cli.name
+        return getattr(self.cli, 'name', 'N/A')
     
     def toJSON(self):
         item = model_to_dict(self, exclude=['store'])
-        item['cli'] = self.cli.name
+        item['cli'] = getattr(self.cli, 'name', 'N/A')
         item['tipoFacNot'] = {'id': self.tipoFacNot, 'name': self.get_tipoFacNot_display()}
         item['subtotal'] = format(self.subtotal, '.2f')
         item['tax'] = format(self.tax, '.2f')
