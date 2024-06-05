@@ -5,4 +5,4 @@ env
 .idea
 .vscode
 .vs/
-db.sqlite3
+
