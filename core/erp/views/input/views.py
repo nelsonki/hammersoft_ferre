@@ -35,7 +35,7 @@ from django.db.models import Sum
 class InputListView(Configuration,LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     model = Input
     form_class = InputForm
-    template_name = 'Input/list.html'
+    template_name = 'input/list.html'
     permission_required = 'view_input'
     url_redirect = reverse_lazy('dashboard')
 
