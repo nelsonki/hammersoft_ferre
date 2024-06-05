@@ -124,30 +124,16 @@ STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
-
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Usar el almacenamiento estático y de medios de Django durante la fase de desarrollo:
-if DEBUG:
-    from django.conf.urls.static import static
-    urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)
-    urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
-
-
-
 LOGIN_REDIRECT_URL = '/erp/dashboard'
 
 LOGOUT_REDIRECT_URL = '/login/'
 
 LOGIN_URL = '/login/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'user.User'
 
