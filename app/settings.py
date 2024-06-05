@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'fd&a%**+le-74cq&mrlh^a0yp95!n5vf-q5u3+5f*9=6at1c2^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
@@ -123,6 +123,21 @@ STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+
+ALLOWED_HOSTS = ['ferreteria-n3sd389c.b4a.run', 'other.allowed.host']
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_PATH, 'media')
+
+# Usar el almacenamiento estático y de medios de Django durante la fase de desarrollo:
+if DEBUG:
+    from django.conf.urls.static import static
+    urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)
+    urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
+
+
 
 LOGIN_REDIRECT_URL = '/erp/dashboard'
 
