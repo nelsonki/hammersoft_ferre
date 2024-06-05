@@ -93,7 +93,7 @@ class InputListView(Configuration,LoginRequiredMixin, ValidatePermissionRequired
 class InputCreateView(Configuration, LoginRequiredMixin, ValidatePermissionRequiredMixin, CreateView):
     model = Input
     form_class = InputForm
-    template_name = 'Input/create.html'
+    template_name = 'input/create.html'
     success_url = reverse_lazy('input_list')
     permission_required = 'add_input'
     url_redirect = success_url
@@ -304,7 +304,7 @@ class InputUpdateView(Configuration, LoginRequiredMixin, ValidatePermissionRequi
 
 class InputDeleteView(Configuration, LoginRequiredMixin, ValidatePermissionRequiredMixin, DeleteView):
     model = Input
-    template_name = 'Input/delete.html'
+    template_name = 'input/delete.html'
     success_url = reverse_lazy('input_list')
     permission_required = 'delete_input'
     url_redirect = reverse_lazy('dashboard')
@@ -360,7 +360,7 @@ class InputInvoicePdfView(Configuration, View):
 
     def get(self, request, *args, **kwargs):
         try:
-            template = get_template('Input/invoice.html')
+            template = get_template('input/invoice.html')
             context = {
                 'input': Input.objects.get(pk=self.kwargs['pk']),
                 'comp': {'name': 'INVERSIONES ANLIL 2022, C.A', 'ruc': 'J503126132', 'address': 'CALLE ESQUINA CALLE 12 CON CARRERA 19 LOCAL LOCAL COMERCIAL NRO 19 06 BARRIO BARRIO OBRERO SAN CRISTOBAL TACHIRA ZONA POSTAL 5001'},
