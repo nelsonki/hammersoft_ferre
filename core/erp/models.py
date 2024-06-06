@@ -45,7 +45,7 @@ class Category(BaseModel):
     image = models.ImageField(upload_to='category/%Y/%m/%d', null=True, blank=True)
     description = models.CharField(max_length=150, verbose_name='Descripción', null=True, blank=True)
     is_delete = models.IntegerField(default=0, null=True, blank=True)
-    delete_at = models.DateTimeField(default=datetime.now)
+    delete_at = models.DateTimeField(default=datetime.now, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add =True)
     updated_at = models.DateTimeField(auto_now = True)
 
