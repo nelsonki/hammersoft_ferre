@@ -1,8 +1,10 @@
+from datetime import datetime
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
+import pytz
 
 from core.erp.mixins import Configuration, IsSuperUserMixin
 from core.erp.models import Category
@@ -33,7 +35,7 @@ class CategoryListView(Configuration,LoginRequiredMixin, ValidatePermissionRequi
             if action == 'searchdata':
                 data = []
                 position = 1
-                for i in Category.objects.all():
+                for i in Category.objects.filter(is_delete=0):
                     item = i.toJSON()
                     item['position'] = position
                     data.append(item)
@@ -145,7 +147,12 @@ class CategoryDeleteView(Configuration,LoginRequiredMixin, ValidatePermissionReq
     def post(self, request, *args, **kwargs):
         data = {}
         try:
-            self.object.delete()
+            tz = pytz.timezone('America/Caracas')
+            fecha = datetime.now(tz).strftime('%Y-%m-%d %H:%M')
+            self.object.is_delete = 1
+            self.object.delete_at  = fecha
+            self.object.save()
+           # self.object.delete()
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
